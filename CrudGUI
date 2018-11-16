@@ -132,12 +132,16 @@ class AddGUI:
         self.add_entry = tkinter.Entry(self.top_frame, width=15)
         self.add_label.pack(side='left')
         self.add_entry.pack(side='left')
+        self.email_label = tkinter.Label(self.top_frame, text='Add a E-mail: ')
+        self.email_entry = tkinter.Entry(self.top_frame, width=15)
+        self.email_label.pack(side='left')
+        self.eamil_entry.pack(side='left')
         self.value = tkinter.StringVar()
         self.info = tkinter.Label(self.middle_frame, text='Results: ')
         self.result_label = tkinter.Label(self.middle_frame, textvariable=self.value)
         self.info.pack(side='left')
         self.result_label.pack(side='left')
-        self.add_button = tkinter.Button(self.bottom_frame, text='Add', command=self.add)
+        self.add_button = tkinter.Button(self.bottom_frame, text='Add', command=self.adding)
         self.back_button = tkinter.Button(self.bottom_frame, text='Main Menu', command=self.back)
         self.add_button.pack(side='left')
         self.back_button.pack(side='left')
@@ -145,14 +149,13 @@ class AddGUI:
         self.middle_frame.pack()
         self.bottom_frame.pack()
 
-    def add(self):
+    def adding(self):
         name = self.add_entry.get()
+        email = self.add_entry.get()
         if name not in self.customers:
-            self.customers[name] = "E-mail"
-            print("Trying to add.")
+            self.customers[name] = email
         else:
             self.value.set("That name already exist.")
-            print("Name found!")
 
     def back(self):
         try:
@@ -196,8 +199,10 @@ class ChangeGUI:
 
     def change(self):
         name = self.change_entry.get()
+        email = self.change_entry.get()
         if name in self.customers:
-            self.customers = input("Enter the new customer e-mail:")
+            self.customers[name] = "Enter the name: "
+            self.customers[email] = "Enter the E-mail: "
         else:
             result = self.customers.name = "Not Found!"
             self.value.set(result)
