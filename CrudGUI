@@ -132,6 +132,11 @@ class AddGUI:
         self.add_entry = tkinter.Entry(self.top_frame, width=15)
         self.add_label.pack(side='left')
         self.add_entry.pack(side='left')
+        self.value = tkinter.StringVar()
+        self.info = tkinter.Label(self.middle_frame, text='Results: ')
+        self.result_label = tkinter.Label(self.middle_frame, textvariable=self.value)
+        self.info.pack(side='left')
+        self.result_label.pack(side='left')
         self.add_button = tkinter.Button(self.bottom_frame, text='Add', command=self.add)
         self.back_button = tkinter.Button(self.bottom_frame, text='Main Menu', command=self.back)
         self.add_button.pack(side='left')
@@ -142,10 +147,20 @@ class AddGUI:
 
     def add(self):
         name = self.add_entry.get()
-        result = self.customers.get(name, 'Not Found')
-        self.value.set(result)
+        if name not in self.customers:
+            self.customers[name] = "E-mail"
+            print("Trying to add.")
+        else:
+            self.value.set("That name already exist.")
+            print("Name found!")
 
     def back(self):
+        try:
+            input_file = open("customer_file.dat", 'wb')
+            pickle.dump(self.customers, input_file)
+            input_file.close()
+        except (FileNotFoundError, IOError):
+            print("\n")
         self.add.destroy()
 
 
@@ -166,6 +181,11 @@ class ChangeGUI:
         self.change_entry = tkinter.Entry(self.top_frame, width=15)
         self.change_label.pack(side='left')
         self.change_entry.pack(side='left')
+        self.value = tkinter.StringVar()
+        self.info = tkinter.Label(self.middle_frame, text='Results: ')
+        self.result_label = tkinter.Label(self.middle_frame, textvariable=self.value)
+        self.info.pack(side='left')
+        self.result_label.pack(side='left')
         self.change_button = tkinter.Button(self.bottom_frame, text='Change', command=self.change)
         self.back_button = tkinter.Button(self.bottom_frame, text='Main Menu', command=self.back)
         self.change_button.pack(side='left')
@@ -176,8 +196,19 @@ class ChangeGUI:
 
     def change(self):
         name = self.change_entry.get()
+        if name in self.customers:
+            self.customers = input("Enter the new customer e-mail:")
+        else:
+            result = self.customers.name = "Not Found!"
+            self.value.set(result)
 
     def back(self):
+        try:
+            input_file = open("customer_file.dat", 'wb')
+            pickle.dump(self.customers, input_file)
+            input_file.close()
+        except (FileNotFoundError, IOError):
+            print("\n")
         self.change.destroy()
 
 
@@ -198,6 +229,11 @@ class DeleteGUI:
         self.delete_entry = tkinter.Entry(self.top_frame, width=15)
         self.delete_label.pack(side='left')
         self.delete_entry.pack(side='left')
+        self.value = tkinter.StringVar()
+        self.info = tkinter.Label(self.middle_frame)
+        self.result_label = tkinter.Label(self.middle_frame, textvariable=self.value)
+        self.info.pack(side='left')
+        self.result_label.pack(side='left')
         self.delete_button = tkinter.Button(self.bottom_frame, text='Delete', command=self.delete)
         self.back_button = tkinter.Button(self.bottom_frame, text='Main Menu', command=self.back)
         self.delete_button.pack(side='left')
@@ -208,8 +244,19 @@ class DeleteGUI:
 
     def delete(self):
         name = self.delete_entry.get()
+        if name in self.customers:
+            del self.customers[name]
+        else:
+            result = self.customers.name = "Not Found!"
+            self.value.set(result)
 
     def back(self):
+        try:
+            input_file = open("customer_file.dat", 'wb')
+            pickle.dump(self.customers, input_file)
+            input_file.close()
+        except (FileNotFoundError, IOError):
+            print("\n")
         self.delete.destroy()
 
 
