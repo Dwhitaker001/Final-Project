@@ -1,0 +1,58 @@
+import tkinter
+import tkinter.messagebox
+import pickle
+
+
+class CrudGUI:
+    def __init__(self):
+        self.main_window = tkinter.Tk()
+        self.top_frame = tkinter.Frame(self.main_window)
+        self.middle_frame = tkinter.Frame(self.main_window)
+        self.label1 = tkinter.Label(self.top_frame, text="Welcome to Who wants to be a Winner. You will have five\n"
+                                                         "questions, all worth different amount of point. Are you ready to play?")
+        self.label1.pack(side='left')
+
+        self.play_button = tkinter.Button(self.middle_frame, text="Let's Play", command=self.open_menu)
+        self.quit_button = tkinter.Button(self.middle_frame, text="Quit", command=self.main_window.destroy)
+
+        self.play_button.pack(side='left')
+        self.quit_button.pack(side='right')
+        self.top_frame.pack()
+        self.middle_frame.pack()
+        tkinter.mainloop()
+
+    def open_menu(self):
+        if self.play_button.get() == 1:
+            search = Question1(self.master)
+        else:
+            print('None')
+
+
+class Question1:
+    def __init__(self, master):
+        try:
+            input_file = 0
+            self.game = pickle.load(input_file)
+        except (FileNotFoundError, IOError):
+            self.game = {}
+        self.main_window = tkinter.Tk
+        self.top_frame = tkinter.Frame(self.main_window)
+        self.one = tkinter.Toplevel(master)
+        self.one.title("Here's the first question")
+
+        self.top_frame = tkinter.Frame(self.one)
+        self.answer1 = tkinter.Button(self.main_window, text='Answer 1')
+        self.answer2 = tkinter.Button(self.main_window, text='Answer 2')
+        self.answer3 = tkinter.Button(self.main_window, text='Answer 3')
+        self.answer1.pack()
+        self.answer2.pack()
+        self.answer3.pack()
+        self.top_frame.pack()
+        tkinter.mainloop()
+
+    def one(self):
+        result = self.game.get()
+        self.value.set(result)
+
+
+game = CrudGUI()
