@@ -18,11 +18,15 @@ class Welcome(tk.Tk):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
+            quitbutton = tk.Button(command=self.quit)
         self.show_frame(StartPage)
 
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
+
+    def quit(self):
+        self.root.destroy
 
 
 class StartPage(tk.Frame):
@@ -36,7 +40,7 @@ class StartPage(tk.Frame):
                            command=lambda: controller.show_frame(PickQuestion))
         button.pack()
         button2 = tk.Button(self, text="Quit", font=QUESTION_FONT,
-                            command=lambda: controller.show_frame.destroy)
+                            command=quit)
         button2.pack()
 
 
@@ -64,28 +68,28 @@ class PageOne(tk.Frame):
         tk.Frame.__init__(self, parent, background="navy")
         label = tk.Label(self, text="The football team named Bears is located in what city?", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
-        button1 = tk.Button(self, text="A. Chicago", font=QUESTION_FONT, activebackground="green2",
+        button1 = tk.Button(self, text="A. Chicago", font=QUESTION_FONT,
                             command=lambda: controller.show_frame(Correct))
-        button1.pack(side='left')
+        button1.pack(side='top')
         button2 = tk.Button(self, text="B. New York", font=QUESTION_FONT,
                             command=lambda: controller.show_frame(Lose))
         button3 = tk.Button(self, text="C. McHenry", font=QUESTION_FONT,
                             command=lambda: controller.show_frame(Lose))
-        button2.pack(side='right')
-        button3.pack(side='left')
+        button2.pack(side='top')
+        button3.pack(side='top')
 
 
 class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
+        tk.Frame.__init__(self, parent, background="deep sky blue")
         label = tk.Label(self, text="Who is the creator of the kids show Spongebob Squarepants", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
-        button1 = tk.Button(self, text="Matt Groening", font=QUESTION_FONT,
+        button1 = tk.Button(self, text="A. Matt Groening", font=QUESTION_FONT,
                             command=lambda: controller.show_frame(Lose))
         button1.pack()
-        button2 = tk.Button(self, text="Seth MacFarlane", font=QUESTION_FONT,
+        button2 = tk.Button(self, text="B. Seth MacFarlane", font=QUESTION_FONT,
                             command=lambda: controller.show_frame(Lose))
-        button3 = tk.Button(self, text="Stephen Hillenburg", font=QUESTION_FONT,
+        button3 = tk.Button(self, text="C. Stephen Hillenburg", font=QUESTION_FONT,
                             command=lambda: controller.show_frame(Correct))
         button2.pack()
         button3.pack()
@@ -131,6 +135,9 @@ class Lose(tk.Frame):
         button1 = tk.Button(self, text="Play Again",
                             command=lambda: controller.show_frame(StartPage))
         button1.pack()
+        button2 = tk.Button(self, text="Quit", font=QUESTION_FONT,
+                            command=quit)
+        button2.pack()
 
 
 class Correct(tk.Frame):
@@ -142,7 +149,7 @@ class Correct(tk.Frame):
                             command=lambda: controller.show_frame(PickQuestion))
         button1.pack()
         button2 = tk.Button(self, text="Quit",
-                            command=lambda: controller.show_frame.destroy)
+                            command=quit)
         button2.pack()
 
 
