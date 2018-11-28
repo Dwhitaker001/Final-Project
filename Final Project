@@ -1,58 +1,150 @@
-import tkinter
-import tkinter.messagebox
-import pickle
+import tkinter as tk
+
+LARGE_FONT = ("Verdana", 20)
+QUESTION_FONT = ("Times New Roman", 12)
 
 
-class CrudGUI:
-    def __init__(self):
-        self.main_window = tkinter.Tk()
-        self.top_frame = tkinter.Frame(self.main_window)
-        self.middle_frame = tkinter.Frame(self.main_window)
-        self.label1 = tkinter.Label(self.top_frame, text="Welcome to Who wants to be a Winner. You will have five\n"
-                                                         "questions, all worth different amount of point. Are you ready to play?")
-        self.label1.pack(side='left')
+class Welcome(tk.Tk):
 
-        self.play_button = tkinter.Button(self.middle_frame, text="Let's Play", command=self.open_menu)
-        self.quit_button = tkinter.Button(self.middle_frame, text="Quit", command=self.main_window.destroy)
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+        container = tk.Frame(self)
+        container.pack(side="top", fill="both", expand=True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+        self.frames = {}
 
-        self.play_button.pack(side='left')
-        self.quit_button.pack(side='right')
-        self.top_frame.pack()
-        self.middle_frame.pack()
-        tkinter.mainloop()
+        for F in (StartPage, PickQuestion, PageOne, PageTwo, PageThree, PageFour, Lose, Correct):
+            frame = F(container, self)
+            self.frames[F] = frame
+            frame.grid(row=0, column=0, sticky="nsew")
+        self.show_frame(StartPage)
 
-    def open_menu(self):
-        if self.play_button.get() == 1:
-            search = Question1(self.master)
-        else:
-            print('None')
+    def show_frame(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
 
 
-class Question1:
-    def __init__(self, master):
-        try:
-            input_file = 0
-            self.game = pickle.load(input_file)
-        except (FileNotFoundError, IOError):
-            self.game = {}
-        self.main_window = tkinter.Tk
-        self.top_frame = tkinter.Frame(self.main_window)
-        self.one = tkinter.Toplevel(master)
-        self.one.title("Here's the first question")
-
-        self.top_frame = tkinter.Frame(self.one)
-        self.answer1 = tkinter.Button(self.main_window, text='Answer 1')
-        self.answer2 = tkinter.Button(self.main_window, text='Answer 2')
-        self.answer3 = tkinter.Button(self.main_window, text='Answer 3')
-        self.answer1.pack()
-        self.answer2.pack()
-        self.answer3.pack()
-        self.top_frame.pack()
-        tkinter.mainloop()
-
-    def one(self):
-        result = self.game.get()
-        self.value.set(result)
+class StartPage(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, background="dark turquoise")
+        label = tk.Label(self, text="Welcome to Who wants to be a Winner. You will have five\n"
+                         "questions, all worth different amount of points.\n"
+                         "Are you ready to play?", font=LARGE_FONT)
+        label.pack(pady=20, padx=20)
+        button = tk.Button(self, text="Let's Play", font=QUESTION_FONT,background="snow",
+                           command=lambda: controller.show_frame(PickQuestion))
+        button.pack()
+        button2 = tk.Button(self, text="Quit", font=QUESTION_FONT,
+                            command=lambda: controller.show_frame.destroy)
+        button2.pack()
 
 
-game = CrudGUI()
+class PickQuestion(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, background="dark turquoise")
+        label = tk.Label(self, text="Choose a question.", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        button = tk.Button(self, text="Question 1", font=QUESTION_FONT,
+                           command=lambda: controller.show_frame(PageOne))
+        button.pack()
+        button2 = tk.Button(self, text="Question 2", font=QUESTION_FONT,
+                            command=lambda: controller.show_frame(PageTwo))
+        button3 = tk.Button(self, text="Question 3", font=QUESTION_FONT,
+                            command=lambda: controller.show_frame(PageThree))
+        button4 = tk.Button(self, text="Question 4", font=QUESTION_FONT,
+                            command=lambda: controller.show_frame(PageFour))
+        button2.pack()
+        button3.pack()
+        button4.pack()
+
+
+class PageOne(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, background="navy")
+        label = tk.Label(self, text="The football team named Bears is located in what city?", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = tk.Button(self, text="A. Chicago", font=QUESTION_FONT, activebackground="green2",
+                            command=lambda: controller.show_frame(Correct))
+        button1.pack(side='left')
+        button2 = tk.Button(self, text="B. New York", font=QUESTION_FONT,
+                            command=lambda: controller.show_frame(Lose))
+        button3 = tk.Button(self, text="C. McHenry", font=QUESTION_FONT,
+                            command=lambda: controller.show_frame(Lose))
+        button2.pack(side='right')
+        button3.pack(side='left')
+
+
+class PageTwo(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Who is the creator of the kids show Spongebob Squarepants", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = tk.Button(self, text="Matt Groening", font=QUESTION_FONT,
+                            command=lambda: controller.show_frame(Lose))
+        button1.pack()
+        button2 = tk.Button(self, text="Seth MacFarlane", font=QUESTION_FONT,
+                            command=lambda: controller.show_frame(Lose))
+        button3 = tk.Button(self, text="Stephen Hillenburg", font=QUESTION_FONT,
+                            command=lambda: controller.show_frame(Correct))
+        button2.pack()
+        button3.pack()
+
+
+class PageThree(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Question 3", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = tk.Button(self, text="Answer 1",
+                            command=lambda: controller.show_frame(Lose))
+        button1.pack()
+        button2 = tk.Button(self, text="Answer 2",
+                            command=lambda: controller.show_frame(Correct))
+        button3 = tk.Button(self, text="Answer 3",
+                            command=lambda: controller.show_frame(Lose))
+        button2.pack()
+        button3.pack()
+
+
+class PageFour(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Question 4", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = tk.Button(self, text="Answer 1",
+                            command=lambda: controller.show_frame(Lose))
+        button1.pack()
+        button2 = tk.Button(self, text="Answer 2",
+                            command=lambda: controller.show_frame(Lose))
+        button3 = tk.Button(self, text="Answer 3",
+                            command=lambda: controller.show_frame(Correct))
+        button2.pack()
+        button3.pack()
+
+
+class Lose(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, background="red2")
+        label = tk.Label(self, text="You Lose! Thanks for playing.", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = tk.Button(self, text="Play Again",
+                            command=lambda: controller.show_frame(StartPage))
+        button1.pack()
+
+
+class Correct(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, background="green2")
+        label = tk.Label(self, text="Correct!", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = tk.Button(self, text="Pick another question",
+                            command=lambda: controller.show_frame(PickQuestion))
+        button1.pack()
+        button2 = tk.Button(self, text="Quit",
+                            command=lambda: controller.show_frame.destroy)
+        button2.pack()
+
+
+app = Welcome()
+app.mainloop()
