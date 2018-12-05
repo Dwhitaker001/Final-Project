@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import *
 
 LARGE_FONT = ("Helvetica", 20)
 QUESTION_FONT = ("Times New Roman", 20)
@@ -16,8 +17,8 @@ class Welcome(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
         self.frames = {}
 
-        for F in (StartPage, PickQuestion, PageOne, PageTwo, PageThree, PageFour, PageFive, Lose, Correct,
-                  Correct2, Correct3, Correct4):
+        for F in (StartPage, PickQuestion, PageOne, PageTwo, PageThree, PageFour, PageFive, PageSix, Lose, Correct,
+                  Correct2, Correct3, Correct4, Correct5, Win):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -70,23 +71,27 @@ class PickQuestion(tk.Frame):
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, background="navy")
-        label = tk.Label(self, text="The football team named Bears is located in what city?", font=LARGE_FONT)
+        label = tk.Label(self, text="The football team named Bears is located in what U.S. city?", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
         button1 = tk.Button(self, text="A. Chicago", font=QUESTION_FONT, width="26",
                             command=lambda: controller.show_frame(Correct))
-        button1.pack(side='top')
+        button1.pack(side='top', padx=60)
         button2 = tk.Button(self, text="B. New York", font=QUESTION_FONT, width="26",
                             command=lambda: controller.show_frame(Lose))
         button3 = tk.Button(self, text="C. McHenry", font=QUESTION_FONT, width="26",
                             command=lambda: controller.show_frame(Lose))
-        button2.pack(side='top')
-        button3.pack(side='top')
+        button2.pack(side='top', padx=60)
+        button3.pack(side='top', padx=60)
+        canvas = tk.Canvas(self, width=200, height=200)
+        canvas.pack(expand=YES, fill=Y)
+        img = PhotoImage(file="bear-3727790_640.gif")
+        canvas.create_image(0,0, anchor=NW, image=img)
 
 
 class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, background="deep sky blue")
-        label = tk.Label(self, text="Who is the creator of the kids show Spongebob Squarepants", font=LARGE_FONT)
+        label = tk.Label(self, text="Who is the creator of the kids show Spongebob Squarepants?", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
         button1 = tk.Button(self, text="A. Matt Groening", font=QUESTION_FONT, width="26",
                             command=lambda: controller.show_frame(Lose))
@@ -97,6 +102,10 @@ class PageTwo(tk.Frame):
                             command=lambda: controller.show_frame(Correct2))
         button2.pack()
         button3.pack()
+        canvas = tk.Canvas(self, width=200, height=200)
+        canvas.pack()
+        img = PhotoImage(file="squidward-2062915_640.gif")
+        canvas.create_image(0,0, anchor=NW, image=img)
 
 
 class PageThree(tk.Frame):
@@ -140,7 +149,7 @@ class PageFive(tk.Frame):
                             command=lambda: controller.show_frame(Lose))
         button1.pack()
         button2 = tk.Button(self, text="Thursday", font=QUESTION_FONT, width="26",
-                            command=lambda: controller.show_frame(Correct))
+                            command=lambda: controller.show_frame(Correct5))
         button3 = tk.Button(self, text="Christmas Day", font=QUESTION_FONT, width="26",
                             command=lambda: controller.show_frame(Lose))
         button2.pack()
@@ -149,15 +158,15 @@ class PageFive(tk.Frame):
 
 class PageSix(tk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent, background="SlateBlue1")
-        label = tk.Label(self, text="December 28, 2018 falls on what day?", font=LARGE_FONT)
+        tk.Frame.__init__(self, parent, background="RoyalBlue2")
+        label = tk.Label(self, text="Who was the 41th President of the United States?", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
-        button1 = tk.Button(self, text="Wednesday", font=QUESTION_FONT, width="26",
-                            command=lambda: controller.show_frame(Lose))
+        button1 = tk.Button(self, text="George H. W. Bush", font=QUESTION_FONT, width="26",
+                            command=lambda: controller.show_frame(Win))
         button1.pack()
-        button2 = tk.Button(self, text="Thursday", font=QUESTION_FONT, width="26",
-                            command=lambda: controller.show_frame(Correct))
-        button3 = tk.Button(self, text="Christmas Day", font=QUESTION_FONT, width="26",
+        button2 = tk.Button(self, text="Bill Clinton", font=QUESTION_FONT, width="26",
+                            command=lambda: controller.show_frame(Lose))
+        button3 = tk.Button(self, text="Barack Obama", font=QUESTION_FONT, width="26",
                             command=lambda: controller.show_frame(Lose))
         button2.pack()
         button3.pack()
@@ -192,7 +201,7 @@ class Correct(tk.Frame):
 class Correct2(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, background="green2")
-        label = tk.Label(self, text="Correct!", font=CORRECT_FONT)
+        label = tk.Label(self, text="That's Right!", font=CORRECT_FONT)
         label.pack(pady=10, padx=10)
         button1 = tk.Button(self, text="Next Question",  font=QUESTION_FONT, width="26",
                             command=lambda: controller.show_frame(PageThree))
@@ -226,6 +235,29 @@ class Correct4(tk.Frame):
         button2 = tk.Button(self, text="Quit",  font=QUESTION_FONT,
                             command=quit)
         button2.pack(side="top")
+
+
+class Correct5(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, background="green2")
+        label = tk.Label(self, text="Correct Again!", font=CORRECT_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = tk.Button(self, text="Last Question",  font=QUESTION_FONT,
+                            command=lambda: controller.show_frame(PageSix))
+        button1.pack(side="top")
+        button2 = tk.Button(self, text="Quit",  font=QUESTION_FONT,
+                            command=quit)
+        button2.pack(side="top")
+
+
+class Win(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, background="green2")
+        label = tk.Label(self, text="You Win! Thanks for Playing.", font=CORRECT_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = tk.Button(self, text="Quit",  font=QUESTION_FONT,
+                            command=quit)
+        button1.pack(side="top")
 
 
 app = Welcome()
