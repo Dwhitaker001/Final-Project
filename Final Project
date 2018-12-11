@@ -42,28 +42,6 @@ class StartPage(tk.Frame):
         button2.pack()
 
 
-class PickQuestion(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent, background="dark turquoise")
-        label = tk.Label(self, text="Choose a question.", font=LARGE_FONT)
-        label.pack(pady=10, padx=10)
-        button = tk.Button(self, text="Question 1", font=QUESTION_FONT,
-                           command=lambda: controller.show_frame(PageOne))
-        button.pack()
-        button2 = tk.Button(self, text="Question 2", font=QUESTION_FONT,
-                            command=lambda: controller.show_frame(PageTwo))
-        button3 = tk.Button(self, text="Question 3", font=QUESTION_FONT,
-                            command=lambda: controller.show_frame(PageThree))
-        button4 = tk.Button(self, text="Question 4", font=QUESTION_FONT,
-                            command=lambda: controller.show_frame(PageFour))
-        button5 = tk.Button(self, text="Question 5", font=QUESTION_FONT,
-                            command=lambda: controller.show_frame(PageFive))
-        button2.pack()
-        button3.pack()
-        button4.pack()
-        button5.pack()
-
-
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, background="navy")
@@ -94,10 +72,6 @@ class PageTwo(tk.Frame):
                             command=lambda: controller.show_frame(Correct2))
         button2.pack()
         button3.pack()
-        canvas = tk.Canvas(self, width=200, height=200)
-        canvas.pack()
-        img = PhotoImage(file="squidward-2062915_640.gif")
-        canvas.create_image(0, 0, anchor=NW, image=img)
 
 
 class PageThree(tk.Frame):
