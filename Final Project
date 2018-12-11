@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import *
 
 LARGE_FONT = ("Helvetica", 20)
 QUESTION_FONT = ("Times New Roman", 20)
@@ -16,7 +15,7 @@ class Welcome(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
         self.frames = {}
 
-        for F in (StartPage, PickQuestion, PageOne, PageTwo, PageThree, PageFour, PageFive, PageSix, Lose, Correct,
+        for F in (StartPage, PageOne, PageTwo, PageThree, PageFour, PageFive, PageSix, Lose, Correct,
                   Correct2, Correct3, Correct4, Correct5, Win):
             frame = F(container, self)
             self.frames[F] = frame
